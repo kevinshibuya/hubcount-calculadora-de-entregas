@@ -50,12 +50,11 @@ export const Container = styled.div`
       background: #FFFFFF;
     }
 
-    .client-container + button {
+    a {
       display: block;
       position: absolute;
       right: 0;
       bottom: -60px;
-      padding: 5px 3%;
     }
   }
 `

@@ -1,34 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Edit, Trash } from 'react-feather';
+import { v4 as uuidv4 } from 'uuid';
+
 import ButtonComponent from '../../components/Button';
 import Header from '../../components/Header';
 import { Container, Input, Button } from './styles';
 
 interface clientData {
-  name: string | undefined;
-  cep: string | undefined;
+  id: string;
+  name: string;
+  cep: string;
 }
 
 export function Home() {
-  const [clientName, setClientName] = useState<string>();
-  const [clientCep, setClientCep] = useState<string>();
+  const [clientName, setClientName] = useState<string>('');
+  const [clientCep, setClientCep] = useState<string>('');
   const [clientData, setClientData] = useState<clientData[]>([]);
 
-  // const cepRegex = /([0-9]{0-4})/
-
-  function handleInputData() {
+  function handleInput() {
     if(!(clientName && clientCep)) {
       if (!clientName) {
-        return alert("Por favor adicione um nome")
+        return alert("Por favor adicione um nome");
       } else if (!clientCep) {
-        return alert("Por favor adicione um cep")
+        return alert("Por favor adicione um cep");
       }
+    } else if (clientCep.length < 8) {
+      return alert("Por favor adicione um cep válido");
     }
+    //verificar se toda a string do cep é composta apenas de numeros
 
-    const oldClientData = [...clientData] || [];
+    const oldClientData = [...clientData];
 
     const newClientData = {
+      id: uuidv4(),
       name: clientName,
       cep: clientCep,
     }
@@ -39,8 +44,51 @@ export function Home() {
 
     setClientName('');
     setClientCep('');
-    setClientData([...oldClientData, newClientData]);
+    setClientData([...oldClientData, newClientData])
+    localStorage.setItem('@hubcount-calculator/clientData', JSON.stringify([...oldClientData, newClientData]));
   }
+
+  function handleRemoveClient(id: string | undefined) {
+    function isClient(client: clientData) {
+      return !(client.id === id)
+    }
+    
+    const newClientData = [...clientData].filter(isClient);
+    
+    setClientData(newClientData);
+    localStorage.setItem('@hubcount-calculator/clientData', JSON.stringify(newClientData));
+  }
+
+  function handleEditClient(id: string | undefined) {
+    let inputArray = Array.from(document.querySelectorAll('input'));
+
+    function isClient(client: clientData) {
+      return (client.id === id)
+    }
+    
+    const selectedClient = [...clientData].filter(isClient)[0];
+
+    if (selectedClient.name && selectedClient.cep) {
+      inputArray[0].value = selectedClient.name;
+      inputArray[1].value = selectedClient.cep;
+      setClientCep(selectedClient.cep);
+      setClientName(selectedClient.name);
+    }
+
+    handleRemoveClient(id);
+  }
+
+  useEffect(() => {
+    function loadClientData() {
+      const storagedClientData = localStorage.getItem('@hubcount-calculator/clientData');
+
+      if (storagedClientData) {
+        setClientData(JSON.parse(storagedClientData))
+      }
+    }
+
+    loadClientData();
+  }, []);
 
   return (
     <Container>
@@ -62,7 +110,7 @@ export function Home() {
           />
           <Button
             isPurple={true}
-            onClick={handleInputData}
+            onClick={handleInput}
           >
             Adicionar
           </Button>
@@ -75,19 +123,31 @@ export function Home() {
               {client.name}
             </p>
             <p className="client-cep">
-              {client.cep}
+              {
+                client?.cep?.substring(0, 5) + '-' + client?.cep?.substring(5, 8)
+              }
             </p>
             <div className="buttons">
-              <Button isPurple={false} >
+              <Button
+                isPurple={false}
+                onClick={() => handleRemoveClient(client.id)}
+              >
                 <Trash size={20} />
               </Button>
-              <Button isPurple={true} >
+              <Button
+                isPurple={true}
+                onClick={() => handleEditClient(client.id)}
+              >
                 <Edit size={20} />
               </Button>
             </div>
           </div>
         ))}
-        <Link to="/budget">
+        {/* manter o state da pagina mudando de pagina */}
+        <Link to={{
+          pathname: '/budget',
+          state: clientData
+        }}>
           <ButtonComponent title="Calcular fretes" />
         </Link>
       </div>
