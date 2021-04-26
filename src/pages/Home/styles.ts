@@ -42,6 +42,13 @@ export const Container = styled.div`
 
         button {
           margin-right: 10%;
+          width: 3rem;
+          height: 3rem;
+
+          svg {
+            width: 1.5rem;
+            height: 1.5rem;
+          }
         }
       }
     }
@@ -52,9 +59,8 @@ export const Container = styled.div`
 
     a {
       display: block;
-      position: absolute;
-      right: 0;
-      bottom: -60px;
+      text-align: right;
+      margin-top: 2rem;
     }
   }
 `

@@ -11,7 +11,7 @@ export const Container = styled.div`
 
   table {
     border-collapse: collapse;
-    margin-bottom: 2em;
+    margin-bottom: 2rem;
 
     th {
       text-align: start;
@@ -50,7 +50,7 @@ export const Container = styled.div`
     }
 
     table tbody tr {
-      margin-bottom: 15px;
+      margin-bottom: 1.5rem;
     }
 
     table tbody tr td {
