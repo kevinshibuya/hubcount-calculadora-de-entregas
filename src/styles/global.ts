@@ -24,4 +24,14 @@ export default createGlobalStyle`
   button {
     cursor: pointer;
   }
+
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+
+    #print, #print * {
+      visibility: visible;
+    }
+  }
 `;
