@@ -39,7 +39,7 @@ export const Container = styled.div`
   }
 
   //torna a tabela responsivel
-  @media (max-width: 768px) {
+  @media screen and (max-width: 768px) {
     table thead {
       display: none;
     }

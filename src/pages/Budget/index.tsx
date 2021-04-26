@@ -26,7 +26,7 @@ export function Budget() {
     //valor padrao para todas os enderecos que nao se encaixem nas regras de negocio
     let shippingCost = 'R$ 150,00';
 
-    //compara os dados do cliente com os dados do array brazilStatesCapitals para verificar o valor do frete
+    //compara os dados do cliente com os dados do array brazilStatesCapitals para verificar o valor do frete, ta feio eu sei kkkkkk
     brazilStatesCapitals.forEach((region) => {
       //caso o estado nao esteja presente no brazilStatesCapitals retorna o valor padrao
       if (region.uf !== clientUf) return;
@@ -74,9 +74,13 @@ export function Budget() {
     // eslint-disable-next-line
   }, []);
 
-  //isso mais o css no global.ts imprimi a tabela da pagina
+  //isso mais o media query no global.ts imprimi a tabela da pagina
   function printData() {
-    window.print();
+    if (window.print) {
+      window.print();
+    } else {
+      return alert("Seu dispositivo não suporta a opção de imprimir.");
+    }
   }
 
   return (
