@@ -14,7 +14,7 @@ export default createGlobalStyle`
   }
 
   body, input, button {
-    font: 14px Roboto, sans-serif;
+    font: 20px Roboto, sans-serif;
   }
 
   #root {
@@ -32,6 +32,16 @@ export default createGlobalStyle`
 
     #print, #print * {
       visibility: visible;
+    }
+  }
+  
+  html {
+    @media (max-width: 1080px) {
+      font-size: 93.75%;
+    }
+    
+    @media (max-width: 720px) {
+      font-size: 87.5%;
     }
   }
 `;

@@ -92,9 +92,12 @@ export function Budget() {
             if (client.erro) {
               return (
                 <tr key={client.id}>
-                  <td>{client.name}</td>
-                  <td>{client?.cep?.substring(0, 5) + '-' + client?.cep?.substring(5, 8)}</td>
-                  <td colSpan={5}>
+                  <td data-label="Cliente">{client.name}</td>
+                  <td data-label="CEP">{client?.cep?.substring(0, 5) + '-' + client?.cep?.substring(5, 8)}</td>
+                  <td
+                    colSpan={5}
+                    data-label="Erro"
+                  >
                     <b>Erro:</b>
                     <span> O CEP inserido não foi encontrado</span>
                   </td>
@@ -103,13 +106,13 @@ export function Budget() {
             } else {
               return (
                 <tr key={client.id}>
-                  <td>{client.name}</td>
-                  <td>{client?.cep?.substring(0, 5) + '-' + client?.cep?.substring(5, 8)}</td>
-                  <td>{client.uf || 'UF não encontrado'}</td>
-                  <td>{client.localidade || 'Cidade não encontrada'}</td>
-                  <td>{client.logradouro || 'Logradouro não encontrado'}</td>
-                  <td>{client.bairro || 'Bairro não encontrado'}</td>
-                  <td>{client.cost}</td>
+                  <td data-label="Cliente">{client.name}</td>
+                  <td data-label="CEP">{client?.cep?.substring(0, 5) + '-' + client?.cep?.substring(5, 8)}</td>
+                  <td data-label="UF">{client.uf || 'UF não encontrado'}</td>
+                  <td data-label="Cidade">{client.localidade || 'Cidade não encontrada'}</td>
+                  <td data-label="Logradouro">{client.logradouro || 'Logradouro não encontrado'}</td>
+                  <td data-label="Bairro">{client.bairro || 'Bairro não encontrado'}</td>
+                  <td data-label="Frete">{client.cost}</td>
                 </tr>
               )
             }

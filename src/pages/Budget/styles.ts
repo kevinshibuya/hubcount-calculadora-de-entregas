@@ -19,7 +19,7 @@ export const Container = styled.div`
 
     th, td {
       border: 1px solid #717681;
-      padding: 5px;
+      padding: 8px;
       color: #555555;
     }
   }
@@ -37,12 +37,43 @@ export const Container = styled.div`
       }
     }
   }
+
+  @media (max-width: 768px) {
+    table thead {
+      display: none;
+    }
+
+    table, table tbody, table tr, table td {
+      display: block;
+      width: 100%;
+    }
+
+    table tbody tr {
+      margin-bottom: 15px;
+    }
+
+    table tbody tr td {
+      text-align: right;
+      padding-left: 50%;
+      position: relative;
+
+      &:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 50%;
+        padding-left: 8px;
+        font-weight: 600;
+        text-align: left;
+      }
+    }
+  }
 `
 
 export const Button = styled.button<ButtonProps>`
   background: ${props => props.isPurple ? "#6558F5" : "#1AAE9F"};
   color: #ffffff;
-  padding: 5px;
+  padding: 8px;
   border-radius: 3px;
   border: none;
   width: 49%;

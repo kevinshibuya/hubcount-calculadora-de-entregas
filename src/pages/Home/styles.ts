@@ -28,7 +28,7 @@ export const Container = styled.div`
       grid-template-columns: 2fr 1.5fr 0.5fr;
       grid-column-gap: 3%;
       align-items: center;
-      padding: 5px;
+      padding: 8px;
       background: #DFE6ED;
 
       p {
@@ -60,7 +60,7 @@ export const Container = styled.div`
 `
 
 export const Input = styled.input`
-  padding: 5px;
+  padding: 8px;
   border-radius: 3px;
   border: 1px solid #717681;
   color: #555555;
@@ -74,7 +74,7 @@ export const Input = styled.input`
 export const Button = styled.button<ButtonProps>`
   background: ${props => props.isPurple ? "#6558F5" : "#D3455B"};
   color: #ffffff;
-  padding: 5px;
+  padding: 8px;
   border-radius: 3px;
   border: none;
 `

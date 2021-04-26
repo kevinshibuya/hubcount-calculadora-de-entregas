@@ -132,13 +132,13 @@ export function Home() {
                 isPurple={false}
                 onClick={() => handleRemoveClient(client.id)}
               >
-                <Trash size={20} />
+                <Trash size={30} />
               </Button>
               <Button
                 isPurple={true}
                 onClick={() => handleEditClient(client.id)}
               >
-                <Edit size={20} />
+                <Edit size={30} />
               </Button>
             </div>
           </div>
