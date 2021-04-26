@@ -9,7 +9,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
 
-  div.inputs-container {
+  .inputs-container {
     display: grid;
     grid-template-columns: 2fr 1.5fr 0.5fr;
     grid-column-gap: 3%;

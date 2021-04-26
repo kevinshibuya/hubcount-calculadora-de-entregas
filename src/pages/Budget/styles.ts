@@ -38,6 +38,7 @@ export const Container = styled.div`
     }
   }
 
+  //torna a tabela responsivel
   @media (max-width: 768px) {
     table thead {
       display: none;

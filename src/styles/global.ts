@@ -14,7 +14,7 @@ export default createGlobalStyle`
   }
 
   body, input, button {
-    font: 20px Roboto, sans-serif;
+    font: 1.2rem Roboto, sans-serif;
   }
 
   #root {
@@ -25,6 +25,7 @@ export default createGlobalStyle`
     cursor: pointer;
   }
 
+  //permite que o window.print() na tela Budget, imprima a tabela
   @media print {
     body * {
       visibility: hidden;
@@ -35,13 +36,14 @@ export default createGlobalStyle`
     }
   }
   
+  //muda o tamanho da fonte de acordo com o dispositivo
   html {
     @media (max-width: 1080px) {
       font-size: 93.75%;
     }
     
-    @media (max-width: 720px) {
-      font-size: 87.5%;
+    @media (max-width: 768px) {
+      font-size: 75.0%;
     }
   }
 `;

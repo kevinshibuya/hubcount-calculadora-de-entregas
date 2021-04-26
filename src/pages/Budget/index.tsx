@@ -21,10 +21,14 @@ export function Budget() {
   const [clientData, setClientData] = useState<clientData[]>([]);
   const history = useHistory();
 
+  //calcula o valor do frete
   function calcShipping(clientUf: string, clientCity: string) {
+    //valor padrao para todas os enderecos que nao se encaixem nas regras de negocio
     let shippingCost = 'R$ 150,00';
 
+    //compara os dados do cliente com os dados do array brazilStatesCapitals para verificar o valor do frete
     brazilStatesCapitals.forEach((region) => {
+      //caso o estado nao esteja presente no brazilStatesCapitals retorna o valor padrao
       if (region.uf !== clientUf) return;
       if (region.capital === clientCity && clientCity === 'São Paulo') return shippingCost = 'Gratuito';
       if (region.region === 'sudeste' && clientCity === region.capital) return shippingCost = 'R$ 50,00';
@@ -42,6 +46,7 @@ export function Budget() {
     const untreatedClientData: any = history.location.state;
     let oldClientData = [...clientData];
 
+    //puxa os dados do viaCEP e cria um novo oldClientData com os dados do cliente
     async function receiveData(client: clientData) {
       await fetch(`https://viacep.com.br/ws/${client.cep}/json/`)
         .then(res => res.json())
@@ -60,6 +65,7 @@ export function Budget() {
       setClientData(oldClientData);
     }
 
+    //executa o receiveData para cada objeto/cliente que existir no array untreatedClientData que vem da tela Home
     function fetchData() {
       untreatedClientData.forEach((client: clientData) => receiveData(client))
     }
@@ -68,6 +74,7 @@ export function Budget() {
     // eslint-disable-next-line
   }, []);
 
+  //isso mais o css no global.ts imprimi a tabela da pagina
   function printData() {
     window.print();
   }
@@ -89,6 +96,7 @@ export function Budget() {
         </thead>
         <tbody>
           {clientData.map((client) => {
+            //verifica se o cliente retornou erro ou nao
             if (client.erro) {
               return (
                 <tr key={client.id}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Edit, Trash } from 'react-feather';
 import { v4 as uuidv4 } from 'uuid';
@@ -18,56 +18,72 @@ export function Home() {
   const [clientCep, setClientCep] = useState<string>('');
   const [clientData, setClientData] = useState<clientData[]>([]);
 
+  //adiciona novo cliente
   function handleInput() {
+    //verificações para os inputs
     if(!(clientName && clientCep)) {
       if (!clientName) {
-        return alert("Por favor adicione um nome");
+        return alert("Por favor adicione um nome.");
       } else if (!clientCep) {
-        return alert("Por favor adicione um cep");
+        return alert("Por favor adicione um CEP.");
       }
+      //verificar se a string do cep é composta apenas de números
+    } else if (isNaN(+clientCep)) {
+      return alert("Por favor adicione um CEP válido.");
     } else if (clientCep.length < 8) {
-      return alert("Por favor adicione um cep válido");
+      return alert("Um CEP possuí no mínimo 8 digítos.");
     }
-    //verificar se toda a string do cep é composta apenas de numeros
 
     const oldClientData = [...clientData];
 
+    //cria o objeto que será adicionado a lista
     const newClientData = {
       id: uuidv4(),
       name: clientName,
       cep: clientCep,
     }
     
+    //selecione os inputs e remove o valor atual deles
     Array.from(document.querySelectorAll('input')).forEach(
       input => (input.value = "")
     );
 
+    //reseta os estados dos inputs, adiciona o novo objeto ao seu estado, e salva o array de clientes no localStorage
     setClientName('');
     setClientCep('');
     setClientData([...oldClientData, newClientData])
     localStorage.setItem('@hubcount-calculator/clientData', JSON.stringify([...oldClientData, newClientData]));
   }
 
-  function handleRemoveClient(id: string | undefined) {
+  //deleta cliente
+  function handleRemoveClient(id: string) {
+    //verifica se o id passado é igual ao id do cliente e retorna false
     function isClient(client: clientData) {
       return !(client.id === id)
     }
     
+    //cria um novo array de cliente removendo o cliente pelo id
     const newClientData = [...clientData].filter(isClient);
     
+    //adiciona o novo array de cliente ao estado e no localStorage
     setClientData(newClientData);
     localStorage.setItem('@hubcount-calculator/clientData', JSON.stringify(newClientData));
   }
 
-  function handleEditClient(id: string | undefined) {
+  //edita cliente
+  function handleEditClient(id: string) {
+    //cria um array dos inputs
     let inputArray = Array.from(document.querySelectorAll('input'));
 
+    //verifica se o id passado é igual ao id do cliente e retorna true
     function isClient(client: clientData) {
       return (client.id === id)
     }
     
+    //seleciona um cliente do array de clientes
     const selectedClient = [...clientData].filter(isClient)[0];
 
+    //adiciona os dados do cliente nos inputs para edição
     if (selectedClient.name && selectedClient.cep) {
       inputArray[0].value = selectedClient.name;
       inputArray[1].value = selectedClient.cep;
@@ -75,10 +91,17 @@ export function Home() {
       setClientName(selectedClient.name);
     }
 
+    //remove o cliente do array para ser editado
     handleRemoveClient(id);
   }
 
+  //prevenir o refresh da pagina
+  function formPreventDefault(event: any) {
+    event.preventDefault();
+  }
+
   useEffect(() => {
+    //carrega os dados do localStorage no load da pagina
     function loadClientData() {
       const storagedClientData = localStorage.getItem('@hubcount-calculator/clientData');
 
@@ -94,7 +117,10 @@ export function Home() {
     <Container>
       <div className="header-container">
         <Header title="Hubfrete" />
-        <div className="inputs-container">
+        <form
+          className="inputs-container"
+          onSubmit={formPreventDefault}
+        >
           <Input
             placeholder="Nome"
             onChange={(e) => {
@@ -114,7 +140,7 @@ export function Home() {
           >
             Adicionar
           </Button>
-        </div>
+        </form>
       </div>
       <div className="content-container">
         {clientData.map((client, i) => (
@@ -132,13 +158,13 @@ export function Home() {
                 isPurple={false}
                 onClick={() => handleRemoveClient(client.id)}
               >
-                <Trash size={30} />
+                <Trash />
               </Button>
               <Button
                 isPurple={true}
                 onClick={() => handleEditClient(client.id)}
               >
-                <Edit size={30} />
+                <Edit />
               </Button>
             </div>
           </div>
