@@ -65,6 +65,7 @@ export function Budget() {
     }
     
     fetchData();
+    // eslint-disable-next-line
   }, []);
 
   function printData() {
