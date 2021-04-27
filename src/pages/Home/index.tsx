@@ -169,7 +169,7 @@ export function Home() {
             </div>
           </div>
         ))}
-        {/* manter o state da pagina mudando de pagina */}
+        {/* passar o estado dessa pagina para a proxima */}
         <Link to={{
           pathname: '/budget',
           state: clientData
